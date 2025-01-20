@@ -1,0 +1,28 @@
+mkdir /tmp/info_server
+cp /etc/hostname /tmp/info_server/$(hostname)_hostname.txt
+cp /etc/resolv.conf /tmp/info_server/$(hostname)_dns.txt
+ip a > /tmp/info_server/$(hostname)_ipa.txt
+cp /etc/os-release /tmp/info_server/$(hostname)_os-release.txt
+top -b -n 1 > /tmp/info_server/$(hostname)_top.txt
+free -tmh > /tmp/info_server/$(hostname)_memory.txt
+#httpd -v > /tmp/info_server/$(hostname)_httpdversion.txt
+rpm -qa > /tmp/info_server/$(hostname)_rpm.txt
+uptime > /tmp/info_server/$(hostname)_uptime.txt
+ls -lah /home/ > /tmp/info_server/$(hostname)_listautenti_dir.txt
+ls -lah /opt/ > /tmp/info_server/$(hostname)_listaOPT.txt
+ls -lah /etc/ > /tmp/info_server/$(hostname)_listaETC.txt
+netstat -anope | grep -v LISTENING | grep LISTEN > /tmp/info_server/$(hostname)_netstat.txt
+cp /etc/group /tmp/info_server/$(hostname)_group.txt
+cp /etc/passwd /tmp/info_server/$(hostname)_passwd.txt
+crontab -l > /tmp/info_server/$(hostname)_crontabL.txt
+yum list installed > /tmp/info_server/$(hostname)_yumInstalled.txt
+
+
+
+for file in /tmp/info_server/*; do
+	filename=$(basename "$file")
+	curl -X POST -F "file=@$file" http://192.168.0.141:5001/upload 
+	echo "FILE : $filename"
+	
+done
+rm -r /tmp/info_server  
