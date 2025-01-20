@@ -1,6 +1,7 @@
 mkdir /tmp/info_server
 cp /etc/hostname /tmp/info_server/$(hostname)_hostname.txt
 cp /etc/resolv.conf /tmp/info_server/$(hostname)_dns.txt
+cp /etc/fstab /tmp/info_server/$(hostname)_fstab.txt
 ip a > /tmp/info_server/$(hostname)_ipa.txt
 cp /etc/os-release /tmp/info_server/$(hostname)_os-release.txt
 top -b -n 1 > /tmp/info_server/$(hostname)_top.txt
