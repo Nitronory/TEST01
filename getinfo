@@ -16,7 +16,9 @@ cp /etc/group /tmp/info_server/$(hostname)_group.txt
 cp /etc/passwd /tmp/info_server/$(hostname)_passwd.txt
 crontab -l > /tmp/info_server/$(hostname)_crontabL.txt
 yum list installed > /tmp/info_server/$(hostname)_yumInstalled.txt
-
+echo $http_proxy > /tmp/info_server/$(hostname)_proxyEnv.txt
+cat /etc/yum.conf > /tmp/info_server/$(hostname)_proxyYUM.txt
+cat /etc/wgetrc | grep proxy > /tmp/info_server/$(hostname)_proxywGET.txt
 
 
 for file in /tmp/info_server/*; do
